@@ -12,7 +12,7 @@ const discountPercent = Number(product.discountPercent);
 const taxPercent = Number(product.taxPercent);
 const isAvailable = product.available;
 
-// get the amoutn of discount
+// get the amount of discount
 const discountAmount = () => price * (discountPercent / 100);
 //console.log(discountAmount(price, discountPer));
 
@@ -20,7 +20,7 @@ const discountAmount = () => price * (discountPercent / 100);
 const priceAfterDiscount = () => price - discountAmount();
 //console.log(finalPrice());
 
-// get tax amout
+// get tax amount
 const taxAmount = () => price * (taxPercent / 100);
 // console.log(taxAmount(price, taxPer));
 
