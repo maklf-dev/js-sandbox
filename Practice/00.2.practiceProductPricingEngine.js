@@ -52,37 +52,46 @@ const products = [
 ];
 
 //returns numeric type of value
-convertToNumber = (value) => Number(value);
+const convertToNumber = (value) => {
+    const result = Number(value);
+    if (Number.isNaN(result)) return null;
+    else return result;
+};
 // console.log(convertToNumber("555" + 5)); check
 
 // to calculate the amount of discount
-getDiscountAmount = (price, discountPercent) => convertToNumber(price) * (convertToNumber(discountPercent) / 100);
+const getDiscountAmount = (price, discountPercent) => convertToNumber(price) * (convertToNumber(discountPercent) / 100);
 // console.log(getDiscountAmount(200, 10)); check
 
 // to calculate final price amount
-getPriceAfterDiscount = (price, discountPercent) =>
+const getPriceAfterDiscount = (price, discountPercent) =>
     convertToNumber(price) - getDiscountAmount(convertToNumber(price), convertToNumber(discountPercent));
 // console.log(getPriceAfterDiscount(100, 10)); check
 
 // to calculate the amount of tax
-getTaxAmount = (price, discountPercent, taxPercent) =>
+const getTaxAmount = (price, discountPercent, taxPercent) =>
     getPriceAfterDiscount(convertToNumber(price), convertToNumber(discountPercent)) *
     (convertToNumber(taxPercent) / 100);
 // console.log(getTaxAmount(100, 10, 10)); check
 
 // to calculate the final price
-getFinalPrice = (price, discountPercent, taxPercent) =>
-    getPriceAfterDiscount(convertToNumber(price), convertToNumber(discountPercent)) +
-    getTaxAmount(price, convertToNumber(discountPercent), convertToNumber(taxPercent));
+const getFinalPrice = (price, discountPercent, taxPercent) => {
+    const toCalculate =
+        getPriceAfterDiscount(convertToNumber(price), convertToNumber(discountPercent)) +
+        getTaxAmount(price, convertToNumber(discountPercent), convertToNumber(taxPercent));
+
+    return Number(toCalculate.toFixed(2)); // add 2 decimals
+};
+
 // console.log(getFinalPrice(100, 10, 10)); check
 
-formatPrice = (price, discountPercent, taxPercent) =>
+const getFinalPrice = (price, discountPercent, taxPercent) =>
     `$${getFinalPrice(convertToNumber(price), convertToNumber(discountPercent), convertToNumber(taxPercent))}`;
-// console.log(formatPrice(100, 10, 10)); check
+// console.log(getFinalPrice(100, 10, 10)); check
 
 // check if its available and stock status
-getAvailabilityMessage = (available, stock) =>
-    !available ? "Unavailable" : stock < 5 ? "Low stock" : "Buy Right Now!";
+const getAvailabilityMessage = (available, stock) =>
+    !available ? "Unavailable" : stock === 0 ? "Out of stock" : stock < 5 ? "Low stock" : "Available";
 // console.log(getAvailabilityMessage(true, 15)); check
 
 // to create final report
@@ -92,7 +101,7 @@ function getProductSummary(listItem) {
     const summaries = [];
 
     for (const product of listItem) {
-        const price = formatPrice(product.price, product.discountPercent, product.taxPercent);
+        const price = getFinalPrice(product.price, product.discountPercent, product.taxPercent);
 
         const message = getAvailabilityMessage(product.available, product.stock);
 
